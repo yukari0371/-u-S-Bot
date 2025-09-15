@@ -39,12 +39,14 @@ for (const file of eventHandleFiles) {
 client.commands = new Collection();
     
 const commandFiles = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
+fs.writeFileSync("data/db/commandList.txt", "", "utf-8");
     
 for (const file of commandFiles) {
     const filePath = path.resolve(`./src/commands/${file}`);
     const command = await import(`file://${filePath}`);
     if (command.default && command.default.data.name) {
         client.commands.set(command.default.data.name, command.default);
+        fs.appendFileSync("data/db/commandList.txt", `・${command.default.data.name ? command.default.data.name : "Unknown"}\n ┗${command.default.data.description ? command.default.data.description : "Unknown"}\n`);
         logger.success(`Set ${command.default.data.name}`);
     } else {
         logger.error(`Error loading command at ${filePath}: Missing name or default export`);
