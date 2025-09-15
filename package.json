@@ -1,0 +1,19 @@
+{
+  "name": "kozeni",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cheerio": "^1.1.2",
+    "discord.js-selfbot-v13": "^3.7.0",
+    "form-data": "^4.0.4",
+    "wikipedia": "^2.1.2"
+  }
+}
