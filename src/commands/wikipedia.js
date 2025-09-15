@@ -20,7 +20,17 @@ export default {
     ) {
         const keyword = args.join("");
 
-        if (isRunning) return await message.react("🔺");
+        if (isRunning) {
+            const embed = new WebEmbed()
+            .setColor("YELLOW")
+            .setTitle("WARNING")
+            .setDescription("wikipedia is running.");
+            await message.reactions.removeAll();
+            await message.react("❌");
+            const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+            await sleep(6 * 1000);
+            return await msg.delete();
+        }
 
         await message.react("⌛");
 

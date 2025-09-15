@@ -6,7 +6,7 @@ import {
 export default {
     data: {
         name: "cmu",
-        description: ""
+        description: "Clears the specified user's messages from the specified channel."
     },
     async execute(
         client,

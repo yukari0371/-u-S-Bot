@@ -20,18 +20,20 @@ export default {
         args
     ) {
         const ipAddress = args[0];
-        const embed_1 = new WebEmbed()
-        .setColor("YELLOW")
-        .setTitle("WARNING")
-        .setDescription("IP address addresses searcher is running.");
 
-        const embed_2 = new WebEmbed()
+        const embed_error = new WebEmbed()
         .setColor("RED")
         .setTitle("ERROR")
         .setDescription("Search failed.");
 
         if (isRunning) {
-            const msg_1 = await message.reply(`${WebEmbed.hiddenEmbed}${embed_1}`);
+            const embed = new WebEmbed()
+            .setColor("YELLOW")
+            .setTitle("WARNING")
+            .setDescription("IP address addresses searcher is running.");
+            await message.reactions.removeAll();
+            await message.react("❌");
+            const msg_1 = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
             await sleep(6 * 1000);
             return await msg_1.delete();
         }
@@ -70,9 +72,9 @@ export default {
             } else {
                 await message.reactions.removeAll();
                 await message.react("❌");
-                const msg_2 = await message.reply(`${WebEmbed.hiddenEmbed}${embed_2}`);
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed_error}`);
                 await sleep(6 * 1000);
-                return await msg_2.delete();
+                return await msg.delete();
             }
             logger.info(tokenId);
             logger.info(token);
@@ -107,7 +109,7 @@ export default {
                 const postAddress = info.postAddress;
                 const coordinate = info.coordinate;
 
-                const embed_3 = new WebEmbed()
+                const embed = new WebEmbed()
                 .setColor("PURPLE")
                 .setTitle("Search results")
                 .setDescription(`
@@ -126,26 +128,30 @@ export default {
 `)
                 await message.reactions.removeAll();
                 await message.react("✅");
-                const msg_3 = await message.reply(`${WebEmbed.hiddenEmbed}${embed_3}`);
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
                 await sleep(30 * 1000);
-                await msg_3.delete();
+                await msg.delete();
             } else {
                 logger.error(`${response_1.status} ${response_1.statusText}`);
                 logError(new Date(), `src/commands/ip-search.js ${response_1.status} ${response_1.statusText}`)
                 await message.reactions.removeAll();
                 await message.react("❌");
-                const msg_4 = await message.reply(`${WebEmbed.hiddenEmbed}${embed_2}`);
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed_error}`);
                 await sleep(6 * 1000);
-                await msg_4.delete();
+                await msg.delete();
             }
         } catch (e) {
+            const embed = new WebEmbed()
+            .setColor("RED")
+            .setTitle("ERROR")
+            .setDescription(e.message);
             logger.error(e.message);
             logError(new Date(), `src/commands/ip-search.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
-            const msg_5 = await message.reply(`${WebEmbed.hiddenEmbed}${embed_2}`);
+            const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
             await sleep(6 * 1000);
-            await msg_5.delete();
+            await msg.delete();
         } finally {
             isRunning = false;
         }

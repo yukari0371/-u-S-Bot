@@ -8,7 +8,7 @@ import {
 export default {
     data: {
         name: "ping",
-        description: ""
+        description: "Measure the response speed."
     },
     async execute(
         client,

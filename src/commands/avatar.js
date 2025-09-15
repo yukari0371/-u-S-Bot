@@ -9,6 +9,9 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import FormData from "form-data";
 import fs from "fs";
+
+let isRunning = false;
+
 export default {
     data: {
         name: "avatar",
@@ -21,6 +24,19 @@ export default {
     ) {
         try {
             await message.react("⌛");
+            if (isRunning) {
+                const embed = new WebEmbed()
+                .setColor("YELLOW")
+                .setTitle("WARNING")
+                .setDescription("avatar is running.");
+                await message.reactions.removeAll();
+                await message.react("❌");
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+                await sleep(6 * 1000);
+                return await msg.delete();
+            }
+            isRunning = true;
+
             const user = client.users.cache.get(args[0]);
             const avatarUrl = await user.displayAvatarURL();
             let imageUrl;
@@ -34,8 +50,8 @@ export default {
                 const $ = cheerio.load(res_2.data);
                 const scriptData = $("#index > script:nth-child(12)").text();
                 auth_token = scriptData.split('"')[35].trim();
-                logger.info(scriptData);
-                logger.info(auth_token);
+                //logger.info(scriptData);
+                //logger.info(auth_token);
             } else {
                 logger.error(`${res_2.status} ${res_2.statusText}`);
                 await message.reactions.removeAll();
@@ -71,6 +87,7 @@ export default {
             logger.error(e.message);
             logError(new Date(), `src/commands/avatar.js ${e.message}`);
             await message.react("❌");
+            isRunning = false;
         }
     }
 };

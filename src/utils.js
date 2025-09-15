@@ -50,3 +50,21 @@ export function jumpLink(link) {
     const jumpLink = `\u001b]8;;${link}]8;;\u0007`;
     return jumpLink;
 };
+
+export function toJsLiteral(obj) {
+    if (Array.isArray(obj)) {
+        return obj.map(toJsLiteral).join(", ");
+    } else if (typeof obj === "object" && obj !== null) {
+        const entries = Object.entries(obj).map(([k, v]) => {
+            if (typeof v === "string") {
+                const safeText = v.replace(/\n/g, "\\n").replace(/"/g, '\\"');
+                return `${k}: "${safeText}"`;
+            }
+            if (Array.isArray(v)) return `${k}: [${toJsLiteral(v)}]`;
+            if (typeof v === "object") return `${k}: { ${toJsLiteral(v)} }`;
+            return `${k}: ${v}`;
+        });
+        return `{ ${entries.join(", ")} }`;
+    }
+    return obj;
+}

@@ -1,3 +1,4 @@
+import { WebEmbed } from "discord.js-selfbot-v13";
 import fs from "fs/promises";
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -21,7 +22,17 @@ export default {
     ) {
         const proxyType = args[0];
 
-        if (isRunning) return await message.react("🔺");
+        if (isRunning) {
+            const embed = new WebEmbed()
+            .setColor("YELLOW")
+            .setTitle("WARNING")
+            .setDescription("proxy-scraper is running.");
+            await message.reactions.removeAll();
+            await message.react("❌");
+            const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+            await sleep(6 * 1000);
+            return await msg.delete();
+        }
 
         await message.react("⌛");
         isRunning = true;
@@ -49,7 +60,15 @@ export default {
                 } else {
                     logger.error(`${response.status} ${response.statusText}`);
                     logError(new Date(), `src/commands/proxy-scrape.js ${response.status} ${response.statusText}`);
+                    await message.reactions.removeAll();
                     await message.react("❌");
+                    const embed = new WebEmbed()
+                    .setColor("RED")
+                    .setTitle("ERROR")
+                    .setDescription(response.statusText);
+                    const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+                    await sleep(6 * 1000);
+                    return await msg.delete();
                 }
             }
     
@@ -66,12 +85,28 @@ export default {
             } catch (e) {
                 logger.error(e.message);
                 logError(new Date(), `src/commands/proxy-scrape.js ${e.message}`);
+                await message.reactions.removeAll();
                 await message.react("❌");
+                const embed = new WebEmbed()
+                .setColor("RED")
+                .setTitle("ERROR")
+                .setDescription(e.message);
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+                await sleep(6 * 1000);
+                await msg.delete();
             }
         } catch (e) {
                 logger.error(e.message);
                 logError(new Date(), `src/commands/proxy-scrape.js ${e.message}`);
+                await message.reactions.removeAll();
                 await message.react("❌");
+                const embed = new WebEmbed()
+                .setColor("RED")
+                .setTitle("ERROR")
+                .setDescription(e.message);
+                const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
+                await sleep(6 * 1000);
+                await msg.delete();
         } finally {
             isRunning = false;
         }

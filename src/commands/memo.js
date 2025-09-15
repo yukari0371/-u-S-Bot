@@ -89,7 +89,7 @@ export default {
             }
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `memo.js ${e.message}`);
+            logError(new Date(), `src/commands/memo.js ${e.message}`);
             const embed_error_4 = new WebEmbed()
             .setColor("RED")
             .setTitle("ERROR")

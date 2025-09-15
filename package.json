@@ -10,10 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.12.2",
     "cheerio": "^1.1.2",
     "discord.js-selfbot-v13": "^3.7.0",
     "form-data": "^4.0.4",
+    "whois": "^2.15.0",
     "wikipedia": "^2.1.2"
   }
 }
