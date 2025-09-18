@@ -1,17 +1,17 @@
-import fs from "fs";
 import {
+    shutdown,
     logger,
     logError,
-    sleep,
-    restart
-} from "../utils.js";
+    sleep
+} from "../../utils.js";
+import { MessageActionRow, WebEmbed } from "discord.js-selfbot-v13";
 
 let isRunning = false;
 
 export default {
     data: {
-        name: "change-prefix",
-        description: "change prefix."
+        name: "shutdown",
+        description: "shutdown bot."
     },
     async execute(
         client,
@@ -19,12 +19,11 @@ export default {
         args
     ) {
         try {
-            await message.react("⌛");
             if (isRunning) {
                 const embed = new WebEmbed()
                 .setColor("YELLOW")
                 .setTitle("WARNING")
-                .setDescription("change-prefix is running. (restart)");
+                .setDescription("shutdown is running.");
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
@@ -32,22 +31,20 @@ export default {
                 return await msg.delete();
             }
             isRunning = true;
-            const newPrefix = args[0];
-            fs.writeFileSync("data/db/prefix.txt", newPrefix, "utf-8");
-            await message.reactions.removeAll();
-            await message.react("✅");
-            await sleep(6 * 1000);
+            const msg = await message.reply("shutdown...");
+            await sleep(3 * 1000);
+            await msg.delete();
             await message.delete();
-            restart();
+            shutdown();
         } catch (e) {
+            logger.error(e.message);
+            logError(new Date(), `src/commands/shutdown.js ${e.message}`);
+            await message.reactions.removeAll();
+            await message.react("❌");
             const embed = new WebEmbed()
             .setColor("RED")
             .setTitle("ERROR")
             .setDescription(e.message);
-            logger.error(e.message);
-            logError(new Date(), `src/commands/commands.js ${e.message}`);
-            await message.reactions.removeAll();
-            await message.react("❌");
             const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
             await sleep(6 * 1000);
             await msg.delete();

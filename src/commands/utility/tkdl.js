@@ -5,7 +5,7 @@ import {
     logger,
     logError,
     urlShortener
-} from "../utils.js";
+} from "../../utils.js";
 
 let isRunning = false;
 

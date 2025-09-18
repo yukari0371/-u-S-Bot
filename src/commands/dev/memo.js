@@ -5,7 +5,7 @@ import {
     logger,
     sleep,
     logError
-} from "../utils.js";
+} from "../../utils.js";
 const memoFilePath = path.resolve("data/db/memo.txt");
 
 export default {

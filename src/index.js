@@ -38,11 +38,18 @@ for (const file of eventHandleFiles) {
 
 client.commands = new Collection();
     
-const commandFiles = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
+const devCommandFiles = [];
+const infoCommandFiles = [];
+const utilityCommandFiles = [];
+
+fs.readdirSync("./src/commands/dev").filter(file => file.endsWith(".js")).map(file => devCommandFiles.push(file));
+fs.readdirSync("./src/commands/info").filter(file => file.endsWith(".js")).map(file => infoCommandFiles.push(file));
+fs.readdirSync("./src/commands/utility").filter(file => file.endsWith(".js")).map(file => utilityCommandFiles.push(file));
+
 fs.writeFileSync("data/db/commandList.txt", "", "utf-8");
     
-for (const file of commandFiles) {
-    const filePath = path.resolve(`./src/commands/${file}`);
+for (const file of devCommandFiles) {
+    const filePath = path.resolve(`./src/commands/dev/${file}`);
     const command = await import(`file://${filePath}`);
     if (command.default && command.default.data.name) {
         client.commands.set(command.default.data.name, command.default);
@@ -53,6 +60,29 @@ for (const file of commandFiles) {
     }
 }
 
+for (const file of infoCommandFiles) {
+    const filePath = path.resolve(`./src/commands/info/${file}`);
+    const command = await import(`file://${filePath}`);
+    if (command.default && command.default.data.name) {
+        client.commands.set(command.default.data.name, command.default);
+        fs.appendFileSync("data/db/commandList.txt", `・${command.default.data.name ? command.default.data.name : "Unknown"}\n ┗${command.default.data.description ? command.default.data.description : "Unknown"}\n`);
+        logger.success(`Set ${command.default.data.name}`);
+    } else {
+        logger.error(`Error loading command at ${filePath}: Missing name or default export`);
+    }
+}
+
+for (const file of utilityCommandFiles) {
+    const filePath = path.resolve(`./src/commands/utility/${file}`);
+    const command = await import(`file://${filePath}`);
+    if (command.default && command.default.data.name) {
+        client.commands.set(command.default.data.name, command.default);
+        fs.appendFileSync("data/db/commandList.txt", `・${command.default.data.name ? command.default.data.name : "Unknown"}\n ┗${command.default.data.description ? command.default.data.description : "Unknown"}\n`);
+        logger.success(`Set ${command.default.data.name}`);
+    } else {
+        logger.error(`Error loading command at ${filePath}: Missing name or default export`);
+    }
+}
 
 client.on("messageCreate", async message => {
 
@@ -76,7 +106,7 @@ client.on("messageCreate", async message => {
         logger.error(e.message);
         await message.reply("There was an error while executing this command!");
     } finally {
-        if (message.author.id === "1318935683888320683") {
+        if (message.author.id === "") {
             await sleep(6000);
             await message.delete();
         }

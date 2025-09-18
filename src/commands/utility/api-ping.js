@@ -1,10 +1,10 @@
 import { WebEmbed } from "discord.js-selfbot-v13";
-import { discordStatus } from "../modules/discord-status-main/src/index.js";
+import { discordStatus } from "../../modules/discord-status-main/src/index.js";
 import {
     logger,
     logError,
     sleep
-} from "../utils.js";
+} from "../../utils.js";
 
 let isRunning = false;
 

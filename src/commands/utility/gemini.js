@@ -5,7 +5,7 @@ import {
     logger,
     logError,
     sleep
-} from "../utils.js";
+} from "../../utils.js";
 
 const apiKey = fs.readFileSync("data/db/geminiApiKey.txt", "utf-8");
 const genAI = new GoogleGenerativeAI(apiKey);

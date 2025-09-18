@@ -3,7 +3,7 @@ import {
     sleep,
     logger,
     logError
-} from "../utils.js";
+} from "../../utils.js";
 
 export default {
     data: {

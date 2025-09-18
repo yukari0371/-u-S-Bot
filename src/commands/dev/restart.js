@@ -1,17 +1,17 @@
 import {
-    shutdown,
+    restart,
     logger,
     logError,
     sleep
-} from "../utils.js";
+} from "../../utils.js";
 import { MessageActionRow, WebEmbed } from "discord.js-selfbot-v13";
 
 let isRunning = false;
 
 export default {
     data: {
-        name: "shutdown",
-        description: "shutdown bot."
+        name: "restart",
+        description: "restart bot."
     },
     async execute(
         client,
@@ -23,7 +23,7 @@ export default {
                 const embed = new WebEmbed()
                 .setColor("YELLOW")
                 .setTitle("WARNING")
-                .setDescription("shutdown is running.");
+                .setDescription("restart is running.");
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
@@ -31,14 +31,14 @@ export default {
                 return await msg.delete();
             }
             isRunning = true;
-            const msg = await message.reply("shutdown...");
+            const msg = await message.reply("restarting...");
             await sleep(3 * 1000);
             await msg.delete();
             await message.delete();
-            shutdown();
+            restart();
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/shutdown.js ${e.message}`);
+            logError(new Date(), `src/commands/restart.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

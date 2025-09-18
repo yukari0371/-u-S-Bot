@@ -1,9 +1,8 @@
 import {
     logger,
     sleep,
-    logError,
-    jumpLink
-} from "../utils.js";
+    logError
+} from "../../utils.js";
 import { WebEmbed } from "discord.js-selfbot-v13";
 import * as cheerio from "cheerio";
 import axios from "axios";

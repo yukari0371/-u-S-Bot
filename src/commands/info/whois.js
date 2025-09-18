@@ -1,7 +1,7 @@
 import { WebEmbed } from "discord.js-selfbot-v13";
 import whois from "whois";
 import fs from "fs";
-import { logError } from "../utils.js";
+import { logError } from "../../utils.js";
 
 let isRunning = false;
 

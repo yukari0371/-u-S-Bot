@@ -1,16 +1,17 @@
-import { WebEmbed } from "discord.js-selfbot-v13";
 import fs from "fs";
 import {
     logger,
     logError,
-    sleep
-} from "../utils.js";
+    sleep,
+    restart
+} from "../../utils.js";
+
 let isRunning = false;
 
 export default {
     data: {
-        name: "commands",
-        description: "Command list"
+        name: "change-prefix",
+        description: "change prefix."
     },
     async execute(
         client,
@@ -23,7 +24,7 @@ export default {
                 const embed = new WebEmbed()
                 .setColor("YELLOW")
                 .setTitle("WARNING")
-                .setDescription("avatar is running.");
+                .setDescription("change-prefix is running. (restart)");
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
@@ -31,15 +32,13 @@ export default {
                 return await msg.delete();
             }
             isRunning = true;
-            const commandList = fs.readFileSync("data/db/commandList.txt", "utf-8").split("\n").filter(c => c !== "").map(c => c.trim());
+            const newPrefix = args[0];
+            fs.writeFileSync("data/db/prefix.txt", newPrefix, "utf-8");
             await message.reactions.removeAll();
             await message.react("✅");
-            const msg = await message.reply({
-                content: "Command list",
-                files: ["data/db/commandList.txt"]
-            });
-            await sleep(30 * 1000);
-            await msg.delete();
+            await sleep(6 * 1000);
+            await message.delete();
+            restart();
         } catch (e) {
             const embed = new WebEmbed()
             .setColor("RED")
