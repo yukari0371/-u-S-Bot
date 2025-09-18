@@ -76,7 +76,7 @@ client.on("messageCreate", async message => {
         logger.error(e.message);
         await message.reply("There was an error while executing this command!");
     } finally {
-        if (message.author.id === "") {
+        if (message.author.id === "1318935683888320683") {
             await sleep(6000);
             await message.delete();
         }

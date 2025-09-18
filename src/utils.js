@@ -101,10 +101,9 @@ export async function urlShortener(url) {
 };
 
 export function restart() {
-    const args = process.argv.slice(1);
-    spawn(process.argv[0], args, {
-        stdio: "inherit",
-        detached: true
-    });
     process.exit(0);
 };
+
+export function shutdown() {
+    process.exit(1);
+}
