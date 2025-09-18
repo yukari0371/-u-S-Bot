@@ -1,16 +1,17 @@
-import { WebEmbed } from "discord.js-selfbot-v13";
-import fs from "fs";
 import {
+    restart,
     logger,
     logError,
     sleep
 } from "../utils.js";
+import { MessageActionRow, WebEmbed } from "discord.js-selfbot-v13";
+
 let isRunning = false;
 
 export default {
     data: {
-        name: "commands",
-        description: "Command list"
+        name: "restart",
+        description: "restart bot."
     },
     async execute(
         client,
@@ -18,12 +19,11 @@ export default {
         args
     ) {
         try {
-            await message.react("⌛");
             if (isRunning) {
                 const embed = new WebEmbed()
                 .setColor("YELLOW")
                 .setTitle("WARNING")
-                .setDescription("avatar is running.");
+                .setDescription("restart is running.");
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
@@ -31,28 +31,23 @@ export default {
                 return await msg.delete();
             }
             isRunning = true;
-            const commandList = fs.readFileSync("data/db/commandList.txt", "utf-8").split("\n").filter(c => c !== "").map(c => c.trim());
-            await message.reactions.removeAll();
-            await message.react("✅");
-            const msg = await message.reply({
-                content: "Command list",
-                files: ["data/db/commandList.txt"]
-            });
-            await sleep(30 * 1000);
+            const msg = await message.reply("restarting...");
+            await sleep(3 * 1000);
             await msg.delete();
+            await message.delete();
+            restart();
         } catch (e) {
+            logger.error(e.message);
+            logError(new Date(), `src/commands/restart.js ${e.message}`);
+            await message.reactions.removeAll();
+            await message.react("❌");
             const embed = new WebEmbed()
             .setColor("RED")
             .setTitle("ERROR")
             .setDescription(e.message);
-            logger.error(e.message);
-            logError(new Date(), `src/commands/commands.js ${e.message}`);
-            await message.reactions.removeAll();
-            await message.react("❌");
             const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
             await sleep(6 * 1000);
             await msg.delete();
-            isRunning = false;
         } finally {
             isRunning = false;
         }

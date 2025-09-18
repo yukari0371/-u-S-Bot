@@ -70,6 +70,9 @@ export default {
             const msg_2 =  await message.reply(`${WebEmbed.hiddenEmbed}${embed_2}`);
             await sleep(6 * 1000);
             await msg_2.delete();
+            isRunning = false;
+        } finally {
+            isRunning = false;
         }
     }
 };

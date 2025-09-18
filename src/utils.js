@@ -1,4 +1,7 @@
 import fs from "fs";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import { spawn } from "child_process";
 
 const colors = {
     white: "\x1b[37m",
@@ -67,4 +70,41 @@ export function toJsLiteral(obj) {
         return `{ ${entries.join(", ")} }`;
     }
     return obj;
-}
+};
+
+export async function urlShortener(url) {
+    const res = await axios.post("https://short-link.me/interstitial-form/ja/", {
+        url: url
+    }, {
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+            "Origin": "https://short-link.me",
+            "Referer": "https://short-link.me/interstitial-form/ja/"
+        }
+    });
+    if (res.status === 200) {
+        const $ = cheerio.load(res.data);
+        const short_url = $("body > section > div > div > section.link-section > input").val();
+        return {
+            status: true,
+            short_url: short_url
+        }
+    } else {
+        return {
+            status: false,
+            code: res.status,
+            message: res.statusText
+        }
+    }
+};
+
+export function restart() {
+    const args = process.argv.slice(1);
+    spawn(process.argv[0], args, {
+        stdio: "inherit",
+        detached: true
+    });
+    process.exit(0);
+};
