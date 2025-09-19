@@ -38,7 +38,7 @@ export default {
             shutdown();
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/shutdown.js ${e.message}`);
+            logError(new Date(), `src/commands/dev/shutdown.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

@@ -84,7 +84,7 @@ export default {
             await msg.delete();
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/avatar.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/avatar.js ${e.message}`);
             await message.react("❌");
             isRunning = false;
         }

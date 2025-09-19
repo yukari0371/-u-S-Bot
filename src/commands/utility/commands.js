@@ -46,7 +46,7 @@ export default {
             .setTitle("ERROR")
             .setDescription(e.message);
             logger.error(e.message);
-            logError(new Date(), `src/commands/commands.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/commands.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);

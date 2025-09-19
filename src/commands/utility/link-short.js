@@ -47,7 +47,7 @@ export default {
                 await msg.delete();
             } else {
                 logger.error(`${result.code} ${result.message}`);
-                logError(new Date(), `src/commands/link-short.js ${result.code} ${result.message}`);
+                logError(new Date(), `src/commands/utility/link-short.js ${result.code} ${result.message}`);
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const embed = new WebEmbed()
@@ -60,7 +60,7 @@ export default {
             }
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/link-short.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/link-short.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

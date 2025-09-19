@@ -50,7 +50,7 @@ export default {
                 return await msg.delete();
             } else {
                 logger.error(`${result.code} ${result.message}`);
-                logError(new Date(), `src/commands/ytdl.js ${result.code} ${result.message}`);
+                logError(new Date(), `src/commands/utility/ytdl.js ${result.code} ${result.message}`);
                 const embed = new WebEmbed()
                 .setColor("RED")
                 .setTitle("ERROR")
@@ -63,7 +63,7 @@ export default {
             } 
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/ytdl.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/ytdl.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

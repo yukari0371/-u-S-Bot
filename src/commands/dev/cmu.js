@@ -36,7 +36,7 @@ export default {
             console.log(`ユーザー <@${TARGET_USER_ID}> のメッセージを ${totalDeleted}件 削除しました。`);
         } catch (error) {
             logger.error(error.message);
-            logError(new Date(), `src/commands/cmu.js ${error.message}`);
+            logError(new Date(), `src/commands/dev/cmu.js ${error.message}`);
             await message.react("❌");
         }
     }

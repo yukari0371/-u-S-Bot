@@ -35,7 +35,7 @@ export default {
             const result = await discordStatus.getStatus(args[0]);
             if (result.status === "error") {
                 logger.error(result.message);
-                logError(new Date(), `src/commands/api-ping.js ${result.message}`);
+                logError(new Date(), `src/commands/utility/api-ping.js ${result.message}`);
                 const embed = new WebEmbed()
                 .setColor("RED")
                 .setTitle("ERROR")
@@ -59,7 +59,7 @@ export default {
             }
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/api-ping.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/api-ping.js ${e.message}`);
             const embed = new WebEmbed()
             .setColor("RED")
             .setTitle("ERROR")

@@ -21,7 +21,7 @@ export default {
         .setDescription(`${client.ws.ping}ms`)
         const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`).catch(async(e) => {
             logger.error(e.message);
-            logError(new Date(), `src/commands/ping.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/ping.js ${e.message}`);
             return await message.react("❌");
         });
         await sleep(6 * 1000);

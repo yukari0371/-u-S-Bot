@@ -52,7 +52,7 @@ export default {
                     return await msg.delete();
                 } else {
                     logger.error(`${_result.code} ${_result.message}`);
-                    logError(new Date(), `src/commands/tkdl.js ${_result.code} ${_result.message}`);
+                    logError(new Date(), `src/commands/utility/tkdl.js ${_result.code} ${_result.message}`);
                     const embed = new WebEmbed()
                     .setColor("RED")
                     .setTitle("ERROR")
@@ -65,7 +65,7 @@ export default {
                 }
             } else {
                 logger.error(e.message);
-                logError(new Date(), `src/commands/tkdl.js ${e.message}`);
+                logError(new Date(), `src/commands/utility/tkdl.js ${e.message}`);
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const embed = new WebEmbed()
@@ -79,7 +79,7 @@ export default {
                 }
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/tkdl.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/tkdl.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

@@ -63,7 +63,7 @@ export default {
             await msg.delete();
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/gemini.js ${e.message}`);
+            logError(new Date(), `src/commands/utility/gemini.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

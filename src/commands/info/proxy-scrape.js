@@ -59,7 +59,7 @@ export default {
                     });
                 } else {
                     logger.error(`${response.status} ${response.statusText}`);
-                    logError(new Date(), `src/commands/proxy-scrape.js ${response.status} ${response.statusText}`);
+                    logError(new Date(), `src/commands/info/proxy-scrape.js ${response.status} ${response.statusText}`);
                     await message.reactions.removeAll();
                     await message.react("❌");
                     const embed = new WebEmbed()
@@ -84,7 +84,7 @@ export default {
                 await msg.delete();
             } catch (e) {
                 logger.error(e.message);
-                logError(new Date(), `src/commands/proxy-scrape.js ${e.message}`);
+                logError(new Date(), `src/commands/info/proxy-scrape.js ${e.message}`);
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const embed = new WebEmbed()
@@ -97,7 +97,7 @@ export default {
             }
         } catch (e) {
                 logger.error(e.message);
-                logError(new Date(), `src/commands/proxy-scrape.js ${e.message}`);
+                logError(new Date(), `src/commands/info/proxy-scrape.js ${e.message}`);
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const embed = new WebEmbed()

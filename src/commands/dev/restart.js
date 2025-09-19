@@ -38,7 +38,7 @@ export default {
             restart();
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/restart.js ${e.message}`);
+            logError(new Date(), `src/commands/dev/restart.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const embed = new WebEmbed()

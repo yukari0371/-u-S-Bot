@@ -46,7 +46,7 @@ export default {
                 await msg.delete();
             } catch (e) {
                 logger.error(e.message);
-                logError(new Date(), `src/commands/whois.js ${e.message}`);
+                logError(new Date(), `src/commands/info/whois.js ${e.message}`);
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const embed_2 = new WebEmbed()

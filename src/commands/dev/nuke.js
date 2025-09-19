@@ -24,7 +24,7 @@ export default {
             });
         } catch (e) {
             logger.error(e.message);
-            logError(new Date(), `src/commands/nuke.js ${e.message}`);
+            logError(new Date(), `src/commands/dev/nuke.js ${e.message}`);
             const embed = new WebEmbed()
             .setColor("RED")
             .setTitle("ERROR")

@@ -133,7 +133,7 @@ export default {
                 await msg.delete();
             } else {
                 logger.error(`${response_1.status} ${response_1.statusText}`);
-                logError(new Date(), `src/commands/ip-search.js ${response_1.status} ${response_1.statusText}`)
+                logError(new Date(), `src/commands/info/ip-search.js ${response_1.status} ${response_1.statusText}`)
                 await message.reactions.removeAll();
                 await message.react("❌");
                 const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed_error}`);
@@ -146,7 +146,7 @@ export default {
             .setTitle("ERROR")
             .setDescription(e.message);
             logger.error(e.message);
-            logError(new Date(), `src/commands/ip-search.js ${e.message}`);
+            logError(new Date(), `src/commands/info/ip-search.js ${e.message}`);
             await message.reactions.removeAll();
             await message.react("❌");
             const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);
