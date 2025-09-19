@@ -44,8 +44,7 @@ export default {
                     .setColor("PURPLE")
                     .setTitle("DOWNLOAD LINK")
                     .setDescription(`${result.result.desc} by ${result.result.author.nickname}\nDownload link: ${_result.short_url}`)
-                    .setVideo(result.result.videoHD)
-                    .setRedirect(result.short_url);
+                    .setRedirect(_result.short_url);
                     await message.reactions.removeAll();
                     await message.react("✅");
                     const msg = await message.reply(`${WebEmbed.hiddenEmbed}${embed}`);

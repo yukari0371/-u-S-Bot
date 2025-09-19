@@ -107,8 +107,10 @@ client.on("messageCreate", async message => {
         await message.reply("There was an error while executing this command!");
     } finally {
         if (message.author.id === "") {
-            await sleep(6000);
-            await message.delete();
+            if (commandName !== "nuke") {
+                await sleep(6 * 1000);
+                await message.delete();
+            }
         }
     }
 });
